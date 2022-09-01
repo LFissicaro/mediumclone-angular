@@ -1,11 +1,9 @@
-import { CurrentUserInterface } from './../../../shared/types/currentUser.interface';
-import { AuthService } from 'src/app/auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { registerAction } from 'src/app/auth/store/actions';
+import { registerAction } from 'src/app/auth/store/actions/register.actions';
 import { isSubmittingSelector } from '../../store/selectors';
 
 @Component({
@@ -18,11 +16,7 @@ export class RegisterComponent implements OnInit {
 
   isSubmitting$: Observable<boolean> = new Observable(); // estado armazenado pelo redux sendo requerido
   list$: Observable<[]> = new Observable();
-  constructor(
-    private fb: FormBuilder,
-    private store: Store,
-    private authService: AuthService
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -45,10 +39,5 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     console.log('onsubmit', this.form.value, this.form.valid);
     this.store.dispatch(registerAction(this.form.value)); // disparo da acao de registro -> altera o valor do estado isSubmitting
-    this.authService
-      .register(this.form.value)
-      .subscribe((currentUser: CurrentUserInterface) => {
-        console.log(currentUser);
-      });
   }
 }
