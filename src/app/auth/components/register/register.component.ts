@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { registerAction } from '../store/actions';
+
+import { registerAction } from 'src/app/auth/store/actions';
 
 @Component({
   selector: 'mc-register-component',
@@ -27,6 +28,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     console.log('onsubmit', this.form.value, this.form.valid);
-    this.store.dispatch(registerAction());
+    this.store.dispatch(registerAction(this.form.value));
   }
 }
