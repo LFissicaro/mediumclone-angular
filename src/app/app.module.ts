@@ -14,7 +14,7 @@ import { AuthModule } from 'src/app/auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     AuthModule,
-    StoreModule.forRoot([]),
+    StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
