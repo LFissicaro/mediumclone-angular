@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { registerAction } from '../store/actions';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+
+import { registerAction } from 'src/app/auth/store/actions/register.actions';
+import { isSubmittingSelector } from '../../store/selectors';
 
 @Component({
   selector: 'mc-register-component',
@@ -11,10 +14,18 @@ import { registerAction } from '../store/actions';
 export class RegisterComponent implements OnInit {
   form: FormGroup = new FormGroup({});
 
+  isSubmitting$: Observable<boolean> = new Observable(); // estado armazenado pelo redux sendo requerido
+  list$: Observable<[]> = new Observable();
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    this.initializeValues();
+  }
+
+  initializeValues(): void {
+    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector)); // sempre que trabalhar com Observable precisaremos de pipes
+    console.log('isSubmitting$', this.isSubmitting$);
   }
 
   initializeForm(): void {
@@ -27,6 +38,6 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(): void {
     console.log('onsubmit', this.form.value, this.form.valid);
-    this.store.dispatch(registerAction());
+    this.store.dispatch(registerAction(this.form.value)); // disparo da acao de registro -> altera o valor do estado isSubmitting
   }
 }
