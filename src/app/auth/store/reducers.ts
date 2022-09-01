@@ -1,6 +1,6 @@
 import { Statement } from '@angular/compiler';
 import { Action, createReducer, on } from '@ngrx/store';
-import { AuthStateInterface } from 'src/app/auth/shared/types/authState.interface';
+import { AuthStateInterface } from 'src/app/auth/types/authState.interface';
 import { registerAction } from 'src/app/auth/store/actions';
 
 const initialState: AuthStateInterface = {
